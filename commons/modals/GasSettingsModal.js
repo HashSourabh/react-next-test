@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState} from "react";
 import {Lock, Info} from "./SvgIcon";
 
 export default function Modal({show, closeModal}) {
@@ -10,6 +10,7 @@ export default function Modal({show, closeModal}) {
   const [advancedEnabled, setAdvancedEnabled] = useState(false)
   const [gasLimit, setGasLimit] = useState(true)
   const inputHandle = (event)=>{
+    const numberRegex ="/^[+-]?\d+(\.\d+)?$/";
       if(event.target.name == 'max_fee_gwei'){
           // setState(preState => ({ ...preState.state, max_fee_gwei:event.target.value}))
           // setState(prevState => ({
@@ -17,7 +18,6 @@ export default function Modal({show, closeModal}) {
           //   max_fee_gwei: event.target.value
           // }));
           setState({...state,max_fee_gwei: event.target.value})
-          console.log(state, 'event.target.value.target.valueevent.target.valueevent.target.value')
       }else if(event.target.name == 'gas_limit'){
         setState({...state, gas_limit: event.target.value})
       }
@@ -27,14 +27,6 @@ export default function Modal({show, closeModal}) {
       }));
   }
 
-  const calculateMaxFee = () => {
-      // setState({...state, max_fee:(state.max_fee_gwei * state.gas_limit)});
-      setState(prevState => ({
-        ...prevState,
-        max_fee: state.max_fee_gwei * state.gas_limit
-      }));
-      console.log(state.max_fee_gwei,'1', state.gas_limit,'2' ,state.max_fee,'3');
-  }
   return (
     <>
       {show ? (
@@ -66,15 +58,15 @@ export default function Modal({show, closeModal}) {
                       <div className="flex flex-row justify-center">
                         <div className="relative mx-1">
                           <input type="radio" name="priority" className="peer absolute opacity-0 checked:bg-blue-500" id="low"/>
-                          <label for="low" className="rounded-lg font-medium text-sm inline-block bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border-gray-400 rounded peer-checked:bg-blue-600 peer-checked:text-white">Low</label>
+                          <label htmlFor="low" className="rounded-lg font-medium text-sm inline-block bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border-gray-400 rounded peer-checked:bg-blue-600 peer-checked:text-white">Low</label>
                         </div>
                         <div className="relative mx-1">
                           <input type="radio" name="priority" className="peer absolute opacity-0 checked:bg-blue-500" id="medium" />
-                          <label for="medium" className="rounded-lg font-medium text-sm inline-block bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border-gray-400 rounded peer-checked:bg-blue-600 peer-checked:text-white">Medium</label>
+                          <label htmlFor="medium" className="rounded-lg font-medium text-sm inline-block bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border-gray-400 rounded peer-checked:bg-blue-600 peer-checked:text-white">Medium</label>
                         </div>
                         <div className="relative mx-1">
                           <input type="radio" name="priority" className="peer absolute opacity-0 checked:bg-blue-500" id="high"/>
-                          <label for="high" className="rounded-lg font-medium text-sm inline-block bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border-gray-400 rounded peer-checked:bg-blue-600 peer-checked:text-white" >High</label>
+                          <label htmlFor="high" className="rounded-lg font-medium text-sm inline-block bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border-gray-400 rounded peer-checked:bg-blue-600 peer-checked:text-white" >High</label>
                         </div>
                       </div>
                     </div>
@@ -116,7 +108,7 @@ export default function Modal({show, closeModal}) {
                           </label>
                         <div className="relative">
 
-                        <input onChange={inputHandle} onKeyUp={inputHandle} type="text" name="max_fee_gwei" className="block bg-white w-full bg-slate-100 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"/>
+                        <input value={state.max_fee_gwei} onChange={inputHandle} onKeyUp={inputHandle} type="text" name="max_fee_gwei" className="block bg-white w-full bg-slate-100 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"/>
                         <div type="button" className="flex items-center opacity-50 absolute top-0 h-full px-2 text-sm right-0 z-10">$0.0</div>
                       </div>
                       </div>
@@ -126,7 +118,7 @@ export default function Modal({show, closeModal}) {
                           Gas Limit
                         </label>
                         <div className="relative">
-                          <input onChange={inputHandle} onKeyUp={inputHandle} type="text" disabled={gasLimit} name="gas_limit" className="block w-full bg-slate-100 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"/>
+                          <input value={state.gas_limit}  onChange={inputHandle} onKeyUp={inputHandle} type="text" disabled={gasLimit} name="gas_limit" className="block w-full bg-slate-100 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"/>
                           <button type="button" className="absolute text-blue-600 font-medium top-0 h-full px-2 text-sm right-0 z-10" onClick={()=>{setGasLimit(!gasLimit)}}>Edit</button>
                         </div>
                       </div>
